@@ -56,13 +56,13 @@ class _decoder:
 
 class skip_thought:
     def __init__(self):
-        self.NUM_UNIT = 300
+        self.NUM_UNIT = 10
 
         self.NUM_UNIT_DE = self.NUM_UNIT
         self.WORD_VEC = 300
         self.BATCH_SIZE = 64
         self.VEC_SIZE = 10000
-        self.MAX_LENGTH = 30
+        self.MAX_LENGTH = 50
         self.LR = 0.0001
 
     def get_cell(self):
@@ -245,7 +245,7 @@ class skip_thought:
 meta={
     'name':'SKIP_T',
     'seg_by_word': True,
-    'train_data':'data_set.txt',
+    'train_data':'DOC_SEG_190330145651.txt',
     'checkpoint_dir':'checkpoint_SKT',
     'summary_dir':'summary_SKT',
     'data_meta':{

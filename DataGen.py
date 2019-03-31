@@ -473,26 +473,26 @@ def init(source_file = 'RAW_DATA.json'):
     p.init_dic(source_file=source_file)
 if __name__ == '__main__':
 
-    # arg = sys.argv
-    # print(arg)
-    # if len(arg)>=2:
-    #     init(arg[1])
+    arg = sys.argv
+    print(arg)
+    if len(arg)>=2:
+        init(arg[1])
 
-    p = Preprocessor()
-    files = os.listdir('.')
-    res = ""
-    for f in files:
-        if f.startswith('DOC_SEG'):
-            res = f
-
-    meta = {
-        "NAME":"SKIP_THOUGHT",
-        "LEN":50,
-        "BATCH":64,
-    }
-    print(res)
-    dp = p.data_provider(res,meta)
-    for k in dp:
-        print(k)
+    # p = Preprocessor()
+    # files = os.listdir('.')
+    # res = ""
+    # for f in files:
+    #     if f.startswith('DOC_SEG'):
+    #         res = f
+    #
+    # meta = {
+    #     "NAME":"SKIP_THOUGHT",
+    #     "LEN":50,
+    #     "BATCH":64,
+    # }
+    # print(res)
+    # dp = p.data_provider(res,meta)
+    # for k in dp:
+    #     print(k)
     # wv.dump_file()
     # WORD_VEC.clear_ulw('F:/python/word_vec/sgns.merge.char')

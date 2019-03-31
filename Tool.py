@@ -1,5 +1,6 @@
 import xml.etree.ElementTree as ET
 import os
+import sys
 import re
 import jieba
 import math
@@ -102,5 +103,6 @@ def sent_format(sentence):
     for p in patterns:
         sentence = re.sub(p,'',sentence)
     return sentence
-
-XML2TXT_extract("/Users/simengzhao/Desktop/数据/交通肇事")
+if __name__ == '__main__':
+    arg = sys.argv
+    XML2TXT_extract(arg[1])
