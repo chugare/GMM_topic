@@ -187,7 +187,7 @@ class Preprocessor:
         self.SEG_BY_WORD = SEG_BY_WORD
         self.GRAM2N = {}
         self.N2GRAM = {}
-        self.freq_threshold = 10
+        self.freq_threshold = 20
         self.read_dic()
         self.wordvec = None
         self.ULSW = ['\n', '\t',' ','\n']
@@ -215,7 +215,11 @@ class Preprocessor:
         if source_file.endswith('.txt'):
             try:
                 tfile = open(source_file,'r',encoding='utf-8')
+                fcount = 0
                 for line in tfile:
+                    if fcount %100==0:
+                        sys.stdout.write("\n[INFO] Now read lines %d .."%cound)
+                    count += 1
                     if self.SEG_BY_WORD :
                         if source_file.split('_')[1] is 'SEG':
                             grams = re.split(r'[,\s]',line)
