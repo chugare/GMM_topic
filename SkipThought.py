@@ -245,7 +245,7 @@ class skip_thought:
 meta={
     'name':'SKIP_T',
     'seg_by_word': True,
-    'train_data':'DOC_SEG_190330145651.txt',
+    'train_data':'DOC_SEG.txt',
     'checkpoint_dir':'checkpoint_SKT',
     'summary_dir':'summary_SKT',
     'data_meta':{
