@@ -61,7 +61,7 @@ class skip_thought:
         self.NUM_UNIT_DE = self.NUM_UNIT
         self.WORD_VEC = 300
         self.BATCH_SIZE = 64
-        self.VEC_SIZE = 10000
+        self.VEC_SIZE = 170000
         self.MAX_LENGTH = 50
         self.LR = 0.0001
 
