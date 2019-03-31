@@ -56,7 +56,7 @@ class _decoder:
 
 class skip_thought:
     def __init__(self):
-        self.NUM_UNIT = 10
+        self.NUM_UNIT = 300
 
         self.NUM_UNIT_DE = self.NUM_UNIT
         self.WORD_VEC = 300
@@ -120,7 +120,7 @@ class skip_thought:
         result_pre = tf.nn.softmax_cross_entropy_with_logits_v2(logits=out_pre,labels=label_pre)
         result_post = tf.nn.softmax_cross_entropy_with_logits_v2(logits=out_post,labels=label_post)
 
-        loss = tf.reduce_sum(result_pre)+tf.reduce_sum(result_post)
+        loss = tf.reduce_mean(result_pre)+tf.reduce_mean(result_post)
 
         tf.summary.scalar("Loss",loss)
 
@@ -130,7 +130,7 @@ class skip_thought:
             tf.summary.histogram(var.name,var)
 
         grads = optimizer.compute_gradients(loss)
-        print(grads)
+        # print(grads)
         for i,(grad,v) in enumerate(grads):
 
             tf.summary.histogram(v.name+'/gradient',grad)
@@ -201,16 +201,16 @@ class skip_thought:
                             last_time = time.time()
 
                             batch_data = next(data_gen)
-                            sen_i,sen_i_pre,sen_i_post,length_i,length_pre,length_post = batch_data
 
 
-                            _,loss,merge = sess.run([ops['train'],ops['loss'],ops['merge']],feed_dict={
-                                ops['sen_i']:sen_i,
-                                ops['sen_pre']:sen_i_pre,
-                                ops['sen_post']:sen_i_post,
-                                ops['length_i']:length_i,
-                                ops['length_pre']:length_pre,
-                                ops['length_post']:length_post,
+                            _,loss,merge = sess.run([ops['train'],ops['loss'],ops['merge']],
+                                                    feed_dict={
+                                ops['sen_i']:batch_data[0],
+                                ops['sen_pre']:batch_data[1],
+                                ops['sen_post']:batch_data[2],
+                                ops['length_i']:batch_data[3],
+                                ops['length_pre']:batch_data[4],
+                                ops['length_post']:batch_data[5],
                             })
 
                             cur_time =time.time()

@@ -436,22 +436,38 @@ class Preprocessor:
             sen_vec_end = len(sen_vecs)
             for i,sv in enumerate(sen_vecs):
                 if i==0:
-                    pre_sen = emp_sen
+                    pre_sen = emp_sen[0]
                     pre_sen_l = 0
                 else:
                     pre_sen = sen_vecs[i-1]
                     pre_sen_l = sen_len[i-1]
                 if i>=sen_vec_end-1:
-                    post_sen = emp_sen
+                    post_sen = emp_sen[0]
                     post_sen_l = 0
                 else:
                     post_sen = sen_vecs[i+1]
                     post_sen_l = sen_len[i+1]
+                # print(emp_sen)
                 res = (sen_vecs[i],pre_sen,post_sen,sen_len[i],pre_sen_l,post_sen_l)
                 batch_v.append( res )
                 batch_v_count += 1
                 if batch_v_count == batch_size:
-                    yield batch_v
+                    # batch_v = zip(*batch_v)
+                    s0 = []
+                    s1 = []
+                    s2 = []
+                    s3 = []
+                    s4 = []
+                    s5 = []
+                    for i,v in enumerate(batch_v):
+                        s0.append(v[0])
+                        s1.append(v[1])
+                        s2.append(v[2])
+                        s3.append(v[3])
+                        s4.append(v[4])
+                        s5.append(v[5])
+                    yield s0,s1,s2,s3,s4,s5
+
                     batch_v = []
                     batch_v_count = 0
         res_gen.close()
@@ -473,26 +489,37 @@ def init(source_file = 'RAW_DATA.json'):
     p.init_dic(source_file=source_file)
 if __name__ == '__main__':
 
-    arg = sys.argv
-    print(arg)
-    if len(arg)>=2:
-        init(arg[1])
+    # arg = sys.argv
+    # print(arg)
+    # if len(arg)>=2:
+    #     init(arg[1])
 
-    # p = Preprocessor()
-    # files = os.listdir('.')
-    # res = ""
-    # for f in files:
-    #     if f.startswith('DOC_SEG'):
-    #         res = f
-    #
-    # meta = {
-    #     "NAME":"SKIP_THOUGHT",
-    #     "LEN":50,
-    #     "BATCH":64,
-    # }
+    p = Preprocessor()
+    files = os.listdir('.')
+    res = ""
+    for f in files:
+        if f.startswith('DOC_SEG'):
+            res = f
+
+    meta = {
+        "NAME":"SKIP_THOUGHT",
+        "LEN":50,
+        "BATCH":2,
+    }
     # print(res)
-    # dp = p.data_provider(res,meta)
-    # for k in dp:
-    #     print(k)
+    dp = p.data_provider(res,meta)
+    for k in dp:
+        cou = 0
+        for i in k:
+            for v in i:
+                try:
+                    print(len(v))
+                except TypeError:
+                    print(1)
+            cou += 1
+            print("  ----  %d"%cou)
+        print('~~~~~~')
+
+
     # wv.dump_file()
     # WORD_VEC.clear_ulw('F:/python/word_vec/sgns.merge.char')
