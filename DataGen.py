@@ -219,7 +219,7 @@ class Preprocessor:
                 for line in tfile:
                     if fcount %100==0:
                         sys.stdout.write("\n[INFO] Now read lines %d .."%fcount)
-                    count += 1
+                    fcount += 1
                     if self.SEG_BY_WORD :
                         if source_file.split('_')[1] is 'SEG':
                             grams = re.split(r'[,\s]',line)
