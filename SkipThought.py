@@ -115,17 +115,28 @@ class skip_thought:
 
         label_pre = tf.concat([sen_i_pre[:,1:],tf.constant(0,dtype=tf.int32,shape=[self.BATCH_SIZE,1])],axis=1)
         label_post= tf.concat([sen_i_post[:,1:],tf.constant(0,dtype=tf.int32,shape=[self.BATCH_SIZE,1])],axis=1)
+
+        pre_res = tf.argmax(out_pre,-1)
+        post_res = tf.argmax(out_post,-1)
+        tf.
+        pre_c = tf.equal(pre_res,label_pre)
+        post_c = tf.equal(post_res,label_post)
+        print(pre_c)
+
+
         label_pre = tf.one_hot(label_pre,depth=self.VEC_SIZE,axis=-1)
         label_post = tf.one_hot(label_post,depth=self.VEC_SIZE,axis=-1)
 
         result_pre = tf.nn.softmax_cross_entropy_with_logits_v2(logits=out_pre,labels=label_pre)
         result_post = tf.nn.softmax_cross_entropy_with_logits_v2(logits=out_post,labels=label_post)
 
+
         loss = tf.reduce_mean(result_pre)+tf.reduce_mean(result_post)
 
         tf.summary.scalar("Loss",loss)
 
         optimizer = tf.train.AdamOptimizer(learning_rate=self.LR)
+
 
         for var in tf.trainable_variables():
             tf.summary.histogram(var.name,var)
