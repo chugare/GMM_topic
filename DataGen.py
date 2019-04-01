@@ -241,11 +241,10 @@ class Preprocessor:
             self.GRAM2N['<p>'] = 3
             index = 4
             print('\n[INFO] File read successfully, now drop word less than %d'%self.freq_threshold)
-            count_t = 0
 
             for word in dic_count:
-                if count_t % 1000 == 0:
-                    sys.stdout.write("\r[INFO] %f finished .." % (float(count_t) / len(dic_count)))
+                if index % 1000 == 0:
+                    sys.stdout.write("\r[INFO] %f finished .." % (float(index) / len(dic_count)))
                 if dic_count[word] >= self.freq_threshold:
                     if word not in self.ULSW and word not in self.GRAM2N:
                         self.GRAM2N[word] = index
@@ -301,7 +300,7 @@ class Preprocessor:
                 print('\n[INFO] File read successfully, now drop word less than %d'%self.freq_threshold)
                 count_t = 0
                 for word in dic_count:
-                    if count_t % 1000 == 0:
+                    if index % 1000 == 0:
                         sys.stdout.write("\r[INFO] %f finished .." % (float(count_t) / len(dic_count)))
                     if dic_count[word] >= self.freq_threshold:
                         if word not in self.ULSW:
