@@ -239,7 +239,7 @@ class Preprocessor:
             self.GRAM2N['<e>'] = 1
             self.GRAM2N['<s>'] = 2
             self.GRAM2N['<p>'] = 3
-            index = 3
+            index = 4
             print('\n[INFO] File read successfully, now drop word less than %d'%self.freq_threshold)
             count_t = 0
 
@@ -247,10 +247,10 @@ class Preprocessor:
                 if count_t % 1000 == 0:
                     sys.stdout.write("\r[INFO] %f finished .." % (float(count_t) / len(dic_count)))
                 if dic_count[word] >= self.freq_threshold:
-                    if word not in self.ULSW:
+                    if word not in self.ULSW and word not in self.GRAM2N:
                         self.GRAM2N[word] = index
                         index += 1
-            print('\n[INFO] Dictionary built successfully')
+            print('\n[INFO] Dictionary built successfully total %d word'%index)
 
             if self.SEG_BY_WORD:
                     dic_file = open('_WORD_DIC.txt', 'w', encoding='utf-8')

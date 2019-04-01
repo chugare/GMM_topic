@@ -61,7 +61,7 @@ class skip_thought:
         self.NUM_UNIT_DE = self.NUM_UNIT
         self.WORD_VEC = 300
         self.BATCH_SIZE = 64
-        self.VEC_SIZE = 170000
+        self.VEC_SIZE = 10000
         self.MAX_LENGTH = 50
         self.LR = 0.0001
 
@@ -115,7 +115,7 @@ class skip_thought:
 
 
         label_pre = tf.one_hot(sen_i_pre,depth=self.VEC_SIZE,axis=-1)
-        label_post = tf.one_hot(sen_i_pre,depth=self.VEC_SIZE,axis=-1)
+        label_post = tf.one_hot(sen_i_post,depth=self.VEC_SIZE,axis=-1)
 
         result_pre = tf.nn.softmax_cross_entropy_with_logits_v2(logits=out_pre,labels=label_pre)
         result_post = tf.nn.softmax_cross_entropy_with_logits_v2(logits=out_post,labels=label_post)
@@ -201,6 +201,8 @@ class skip_thought:
                             last_time = time.time()
 
                             batch_data = next(data_gen)
+
+                            labeled_pre = batch_data[1][1:]
 
 
                             _,loss,merge = sess.run([ops['train'],ops['loss'],ops['merge']],
