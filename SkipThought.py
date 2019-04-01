@@ -41,7 +41,7 @@ class _decoder:
         def time_step(time,inputs,state,ta):
             x_i = inputs[:,time,:]
             h_i = self.call(state,x_i)
-            ta.write(time,h_i)
+            ta = ta.write(time,h_i)
             time += 1
             return time,inputs,h_i,ta
         i,_,h,h_ta = tf.while_loop(
@@ -63,7 +63,7 @@ class skip_thought:
         self.BATCH_SIZE = 64
         self.VEC_SIZE = 100000
         self.MAX_LENGTH = 50
-        self.LR = 0.001
+        self.LR = 0.0001
 
     def get_cell(self):
         # gru_cell = tf.keras.layers.GRUCell(self.NUM_UNIT)
@@ -96,17 +96,17 @@ class skip_thought:
         init_state = encoder.zero_state(self.BATCH_SIZE,dtype=tf.float32)
         _,h_i = tf.nn.dynamic_rnn(encoder,sen_i_emb,length_i,initial_state=init_state)
 
-        decoder_pre  = self.get_cell()
-        decoder_post = self.get_cell()
-
-        pre_h,outpre = tf.nn.dynamic_rnn(decoder_pre,sen_pre_emb,length_pre,initial_state=h_i,scope="PRE")
-        post_h,outpre = tf.nn.dynamic_rnn(decoder_post,sen_post_emb,length_post,initial_state=h_i,scope="POST")
-
-        # decoder_pre = _decoder(self.NUM_UNIT_DE,h_i,self.WORD_VEC,"PRE")
-        # decoder_post = _decoder(self.NUM_UNIT_DE,h_i,self.WORD_VEC,"POST")
+        # decoder_pre  = self.get_cell()
+        # decoder_post = self.get_cell()
         #
-        # pre_h = decoder_pre.dynamic_run(inputs=sen_pre_emb,seq_len=length_pre,batch_size=self.BATCH_SIZE,max_len=self.MAX_LENGTH)
-        # post_h = decoder_post.dynamic_run(inputs=sen_post_emb,seq_len=length_post,batch_size=self.BATCH_SIZE,max_len=self.MAX_LENGTH)
+        # pre_h,outpre = tf.nn.dynamic_rnn(decoder_pre,sen_pre_emb,length_pre,initial_state=h_i,scope="PRE")
+        # post_h,outpre = tf.nn.dynamic_rnn(decoder_post,sen_post_emb,length_post,initial_state=h_i,scope="POST")
+
+        decoder_pre = _decoder(self.NUM_UNIT_DE,h_i,self.WORD_VEC,"PRE")
+        decoder_post = _decoder(self.NUM_UNIT_DE,h_i,self.WORD_VEC,"POST")
+
+        pre_h = decoder_pre.dynamic_run(inputs=sen_pre_emb,seq_len=length_pre,batch_size=self.BATCH_SIZE,max_len=self.MAX_LENGTH)
+        post_h = decoder_post.dynamic_run(inputs=sen_post_emb,seq_len=length_post,batch_size=self.BATCH_SIZE,max_len=self.MAX_LENGTH)
 
         w_out = tf.get_variable(shape=[self.NUM_UNIT_DE,self.VEC_SIZE],dtype=tf.float32,initializer=tf.glorot_normal_initializer(),name="w_out")
 
