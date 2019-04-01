@@ -234,7 +234,7 @@ class Preprocessor:
                         dic_count[gram] += 1
             except FileNotFoundError:
                 print("[ERROR] Source file \'%s\' not found" % (source_file))
-
+            self.GRAM2N = {}
             self.GRAM2N['<u>'] = 0
             self.GRAM2N['<e>'] = 1
             self.GRAM2N['<s>'] = 2

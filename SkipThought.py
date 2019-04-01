@@ -96,17 +96,17 @@ class skip_thought:
         init_state = encoder.zero_state(self.BATCH_SIZE,dtype=tf.float32)
         _,h_i = tf.nn.dynamic_rnn(encoder,sen_i_emb,length_i,initial_state=init_state)
 
-        # decoder_pre  = self.get_cell()
-        # decoder_post = self.get_cell()
+        decoder_pre  = self.get_cell()
+        decoder_post = self.get_cell()
+
+        pre_h,outpre = tf.nn.dynamic_rnn(decoder_pre,sen_pre_emb,length_pre,initial_state=h_i,scope="PRE")
+        post_h,outpre = tf.nn.dynamic_rnn(decoder_post,sen_post_emb,length_post,initial_state=h_i,scope="POST")
         #
-        # pre_h,outpre = tf.nn.dynamic_rnn(decoder_pre,sen_pre_emb,length_pre,initial_state=h_i,scope="PRE")
-        # post_h,outpre = tf.nn.dynamic_rnn(decoder_post,sen_post_emb,length_post,initial_state=h_i,scope="POST")
-
-        decoder_pre = _decoder(self.NUM_UNIT_DE,h_i,self.WORD_VEC,"PRE")
-        decoder_post = _decoder(self.NUM_UNIT_DE,h_i,self.WORD_VEC,"POST")
-
-        pre_h = decoder_pre.dynamic_run(inputs=sen_pre_emb,seq_len=length_pre,batch_size=self.BATCH_SIZE,max_len=self.MAX_LENGTH)
-        post_h = decoder_post.dynamic_run(inputs=sen_post_emb,seq_len=length_post,batch_size=self.BATCH_SIZE,max_len=self.MAX_LENGTH)
+        # decoder_pre = _decoder(self.NUM_UNIT_DE,h_i,self.WORD_VEC,"PRE")
+        # decoder_post = _decoder(self.NUM_UNIT_DE,h_i,self.WORD_VEC,"POST")
+        #
+        # pre_h = decoder_pre.dynamic_run(inputs=sen_pre_emb,seq_len=length_pre,batch_size=self.BATCH_SIZE,max_len=self.MAX_LENGTH)
+        # post_h = decoder_post.dynamic_run(inputs=sen_post_emb,seq_len=length_post,batch_size=self.BATCH_SIZE,max_len=self.MAX_LENGTH)
 
         w_out = tf.get_variable(shape=[self.NUM_UNIT_DE,self.VEC_SIZE],dtype=tf.float32,initializer=tf.glorot_normal_initializer(),name="w_out")
 
