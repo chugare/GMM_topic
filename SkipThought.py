@@ -56,14 +56,14 @@ class _decoder:
 
 class skip_thought:
     def __init__(self):
-        self.NUM_UNIT = 300
+        self.NUM_UNIT = 200
 
         self.NUM_UNIT_DE = self.NUM_UNIT
         self.WORD_VEC = 300
         self.BATCH_SIZE = 64
-        self.VEC_SIZE = 10000
+        self.VEC_SIZE = 100000
         self.MAX_LENGTH = 50
-        self.LR = 0.0001
+        self.LR = 0.001
 
     def get_cell(self):
         # gru_cell = tf.keras.layers.GRUCell(self.NUM_UNIT)
@@ -101,7 +101,7 @@ class skip_thought:
 
         pre_h,outpre = tf.nn.dynamic_rnn(decoder_pre,sen_pre_emb,length_pre,initial_state=h_i,scope="PRE")
         post_h,outpre = tf.nn.dynamic_rnn(decoder_post,sen_post_emb,length_post,initial_state=h_i,scope="POST")
-        #
+
         # decoder_pre = _decoder(self.NUM_UNIT_DE,h_i,self.WORD_VEC,"PRE")
         # decoder_post = _decoder(self.NUM_UNIT_DE,h_i,self.WORD_VEC,"POST")
         #
