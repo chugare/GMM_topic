@@ -119,8 +119,8 @@ class skip_thought:
         pre_res = tf.argmax(out_pre,-1)
         post_res = tf.argmax(out_post,-1)
 
-        tf.summary.histogram(post_res,'post_res')
-        tf.summary.histogram(pre_res,'pre_res')
+        tf.summary.histogram('post_res',post_res)
+        tf.summary.histogram('pre_res',pre_res)
         tf.summary.histogram(sen_i_pre)
         tf.summary.histogram(sen_i_post)
         pre_c = tf.equal(pre_res,label_pre)
