@@ -20,8 +20,10 @@ def t1():
 
         state_ta = tf.TensorArray(dtype=tf.float32,size=100)
 
-        mat_data = [range(5) for i in range(4)]
+        mat_data = [range(i,i+5) for i in range(4)]
         length = range(1,5)
+        mt = tf.placeholder(dtype=tf.int32,shape=[4,5])
+        oh = tf.one_hot(mt,10,axis=-1)
         i = tf.constant(0)
         tmp = tf.get_variable('k',shape=[5,2],dtype=tf.float32)
 
@@ -31,7 +33,7 @@ def t1():
         pc = pc[:,1:]
         cc = tf.concat([pc,ic],axis=1)
 
-        cr = sess.run(cc)
+        cr = sess.run(oh,feed_dict={mt:mat_data})
         print(cr)
 
         # def _encoder_evid(i,state_ta):

@@ -118,7 +118,11 @@ class skip_thought:
 
         pre_res = tf.argmax(out_pre,-1)
         post_res = tf.argmax(out_post,-1)
-        tf.
+
+        tf.summary.histogram(post_res,'post_res')
+        tf.summary.histogram(pre_res,'pre_res')
+        tf.summary.histogram(sen_i_pre)
+        tf.summary.histogram(sen_i_post)
         pre_c = tf.equal(pre_res,label_pre)
         post_c = tf.equal(post_res,label_post)
         print(pre_c)
@@ -230,7 +234,7 @@ class skip_thought:
                             cur_time =time.time()
                             time_cost = cur_time-last_time
                             total_cost = cur_time-start_time
-                            if global_step % 1 == 0:
+                            if global_step % 100 == 0:
                                 train_writer.add_summary(merge,global_step)
                                 # logger.write_log([global_step/10,loss,total_cost])
                             print('[INFO] Batch %d 训练结果：LOSS=%.2f  用时: %.2f 共计用时 %.2f' % (batch_count, loss,time_cost,total_cost))
