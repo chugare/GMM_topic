@@ -121,8 +121,8 @@ class skip_thought:
 
         tf.summary.histogram('post_res',post_res)
         tf.summary.histogram('pre_res',pre_res)
-        tf.summary.histogram(sen_i_pre)
-        tf.summary.histogram(sen_i_post)
+        tf.summary.histogram('sen_pre',sen_i_pre)
+        tf.summary.histogram('sen_post',sen_i_post)
         pre_c = tf.equal(pre_res,label_pre)
         post_c = tf.equal(post_res,label_post)
         print(pre_c)
